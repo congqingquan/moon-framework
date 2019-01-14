@@ -24,10 +24,54 @@ public final class ReflectionUtils {
 	private ReflectionUtils() {
 	}
 
+	/**
+	 * 暴力访问
+	 */
 	private static boolean ACCESS_PERMISSIONS = Boolean.TRUE;
 
 	/**
-	 * <p>通过无参构造器实例化对象</p>
+	 * 根据类全限名实例化对象
+	 * @param qualifiedName 全限定名
+	 * @return 实例化对象
+	 */
+	public static Object newInstance(String qualifiedName) {
+		if (StringUtils.isNotBlank(qualifiedName)) {
+			try {
+				return Class.forName(qualifiedName).newInstance();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 根据类全限名实例化对象
+	 * @param qualifiedName 全限定名
+	 * @param type 对象的Class类型
+	 * @return 实例化对象
+	 */
+	public static <T> T newInstance(String qualifiedName, Class<T> type) {
+		if (StringUtils.isNotBlank(qualifiedName)) {
+			try {
+				return (T) Class.forName(qualifiedName).newInstance();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * <p>通过无参构造器实例化对象(源类即使不含有公开无参构造器也可以进行实例化)</p>
 	 * <p>Class对象为null/对象不含有无参构造/异常返回null</p>
 	 */
 	public static <T> T newInstance(Class<T> clazz) {
@@ -45,7 +89,7 @@ public final class ReflectionUtils {
 	}
 
 	/**
-	 * <p>通过有参构造器实例化对象</p>
+	 * <p>通过有参构造器实例化对象(源类即使不含有公开有参构造器也可以进行实例化)</p>
 	 * <p>Class对象为null/构造器参数列表为空/构造器参数类型列表为空/异常返回null</p>
 	 */
 	public static <T> T newInstance(Class<T> clazz, Object[] args, Class<?>... argTypes) {
