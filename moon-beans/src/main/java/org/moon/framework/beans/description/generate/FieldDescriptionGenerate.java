@@ -1,4 +1,4 @@
-package org.moon.framework.beans.generate;
+package org.moon.framework.beans.description.generate;
 
 import java.lang.reflect.Field;
 

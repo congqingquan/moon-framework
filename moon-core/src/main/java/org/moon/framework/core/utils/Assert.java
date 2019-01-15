@@ -23,10 +23,11 @@ public final class Assert {
 	}
 
 	/**
-	 * @description 断言字符序列不为空
+	 * @description 断言字符序列为空
 	 * @param charSequence 校验的字符序列
+	 * @param message 提示的错误信息
 	 */
-	public static void isNotEmptyString(CharSequence charSequence, String message) {
+	public static void isEmptyString(CharSequence charSequence, String message) {
 		if (StringUtils.isEmpty(charSequence))
 			throw new IllegalArgumentException(message);
 	}

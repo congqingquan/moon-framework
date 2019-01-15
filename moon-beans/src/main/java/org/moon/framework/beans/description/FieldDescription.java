@@ -2,7 +2,7 @@ package org.moon.framework.beans.description;
 
 import java.lang.reflect.Field;
 
-import org.moon.framework.beans.generate.FieldDescriptionGenerate;
+import org.moon.framework.beans.description.generate.FieldDescriptionGenerate;
 
 /**
  * Created by 明月   on 2019-01-13 / 18:16
@@ -32,7 +32,7 @@ public class FieldDescription implements FieldDescriptionGenerate {
 			Field fieldInstance) {
 		return FieldDescriptionGenerate.generateFieldDescription(fieldName, value, modifer, type, fieldInstance);
 	}
-	
+
 	public String getFieldName() {
 		return fieldName;
 	}

@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.moon.framework.beans.description.BeanDescription;
-import org.moon.framework.beans.description.helper.BeanDescriptionHelper;
+import org.moon.framework.beans.description.basic.BeanDescription;
+import org.moon.framework.beans.description.helper.BeanDescriptionGenerateHelper;
 import org.moon.framework.core.constant.Constant;
+import org.moon.framework.core.utils.Assert;
 import org.moon.framework.core.utils.StringUtils;
 
 /**
@@ -27,7 +28,7 @@ public class BeansScanner {
 	 *            扫描的根据经
 	 * @return class文件的路径集合
 	 */
-	private static List<String> getClassPathsByRootPath(String rootPath) {
+	public static List<String> getClassPathsByRootPath(String rootPath) {
 		List<String> classesPath = null;
 		if (StringUtils.isNotEmpty(rootPath)) {
 			classesPath = new ArrayList<>();
@@ -64,25 +65,6 @@ public class BeansScanner {
 	}
 
 	/**
-	 * 根据全限定名反射获取class对象
-	 * 
-	 * @param qualifiedName
-	 *            全限定名
-	 * @return class对象,若限定路径无效返回null
-	 */
-	private static Class<?> instantiatedObjectByQualifiedName(String qualifiedName) {
-		Class<?> forName = null;
-		if (StringUtils.isNotEmpty(qualifiedName)) {
-			try {
-				forName = Class.forName(qualifiedName);
-			} catch (ClassNotFoundException e) {
-				return forName;
-			}
-		}
-		return forName;
-	}
-
-	/**
 	 * 校验该Class实例是否实现了参数annotationClass类型的类级别的注解
 	 * 
 	 * @param clazz
@@ -96,7 +78,7 @@ public class BeansScanner {
 			return null;
 		// 可装载
 		if (isLoadable(clazz, annotationClasses))
-			return BeanDescriptionHelper.create(clazz);
+			return BeanDescriptionGenerateHelper.get().generate(clazz);
 		return null;
 	}
 
@@ -104,6 +86,7 @@ public class BeansScanner {
 	 * 校验Class上是否标注了指定注解
 	 * @param clazz 需要检验的Class对象
 	 * @param annotationClasses 指定注解集合
+	 * @return 
 	 * @return
 	 */
 	@SafeVarargs
@@ -118,16 +101,14 @@ public class BeansScanner {
 	}
 
 	/**
-	 * 扫描路径参数下的所有实现了annotationClass参数类型注解的类
+	 * 根据扫描路径扫描Class并获取Class的全限定名
 	 * 
-	 * @param scanPath
-	 *            扫描路径
-	 * @return 若路径无效或路径下无符合的component则返回空的List集合
+	 * @param scanClassPath 扫描路径
+	 * @return 全限定名集合
 	 */
-	@SafeVarargs
-	public static List<BeanDescription> scan(String scanClassPath, Class<? extends Annotation>... annotationClasses) {
-		// 1. 实例化装载Bean描述的集合
-		List<BeanDescription> beanDescriptions = new ArrayList<>();
+	public static List<String> getQualifiedNames(String scanClassPath) {
+		// 1. 实例化装载磁盘上classPath下的所有Class文件的全限定名
+		List<String> qualifiedNames = new ArrayList<>();
 		if (StringUtils.isNotEmpty(scanClassPath)) {
 			// 2. 声明class-path路径
 			String standardClassPath = convertedStandardFormatToFilePath(Constant.Path.CLASSPATH_UTF8);
@@ -146,18 +127,49 @@ public class BeansScanner {
 					next = next.substring(next.lastIndexOf(standardClassPath) + standardClassPath.length());
 					// 将文件格式的类全限定名字符进行转换
 					next = convertedPathToFileStandardToClassStandard(next);
-					// 根据全限定名获取class对象
-					Class<?> clazz = instantiatedObjectByQualifiedName(delClassPostfix(next));
-					// 实例化实现了指定参数注解的实例
-					if (null != clazz) {
-						BeanDescription loadedBeanDescription = loadBeanDescription(clazz, annotationClasses);
-						if (null != loadedBeanDescription)
-							beanDescriptions.add(loadedBeanDescription);
-						else
-							continue;
-					}
+					// 删除后缀后添加到全限定名容器内
+					qualifiedNames.add(delClassPostfix(next));
 				}
 			}
+		}
+		return qualifiedNames;
+	}
+
+	/**
+	 * 扫描路径参数下的所有实现了annotationClass参数类型注解的类
+	 * 
+	 * @param scanPath
+	 *            扫描路径
+	 * @param anntations 指定注解类型
+	 * @return 若路径无效或路径下无符合的component则返回空的List集合
+	 */
+	@SafeVarargs
+	public static List<BeanDescription> scan(String scanClassPath, Class<? extends Annotation>... annotationClasses) {
+
+		Assert.isEmptyString(scanClassPath, "组件扫描路径不能为空!!!");
+
+		// 1. 初始化装载BeanDescription的容器
+		List<BeanDescription> beanDescriptions = new ArrayList<>();
+
+		// 2. 获取路径下所有Class的全限定名
+		List<String> qualifiedNames = getQualifiedNames(scanClassPath);
+
+		// 3. 根据这些全限定名获取所有实现了annotationClass参数类型注解的类的BeanDescription
+		for (Iterator<String> iterator = qualifiedNames.iterator(); iterator.hasNext();) {
+			String qualifiedName = iterator.next();
+			// 4. 根据全限定名加载Class实例
+			Class<?> loadClass = null;
+			try {
+				loadClass = Class.forName(qualifiedName);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			// 5. 加载BeanDescription
+			BeanDescription loadedBeanDescription = loadBeanDescription(loadClass, annotationClasses);
+			if (null != loadedBeanDescription)
+				beanDescriptions.add(loadedBeanDescription);
+			else
+				continue;
 		}
 		return beanDescriptions;
 	}
@@ -221,6 +233,7 @@ public class BeansScanner {
 	}
 
 	public static void main(String[] args) {
+
 		// 扫描路径
 		String basePackage = "org.moon.framework.beans";
 

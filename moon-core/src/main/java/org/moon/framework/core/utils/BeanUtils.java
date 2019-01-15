@@ -153,7 +153,7 @@ public final class BeanUtils {
     public static PropertyDescriptor getPropertyDescriptor(String fieldName, Class<?> clazz) {
 
         Assert.isNull(clazz, "Class cannot be empty");
-        Assert.isNotEmptyString(fieldName, "field name cannot be empty");
+        Assert.isEmptyString(fieldName, "field name cannot be empty");
 
         try {
             return new PropertyDescriptor(fieldName, clazz);
@@ -176,7 +176,7 @@ public final class BeanUtils {
 
         Assert.isNull(clazz, "Class cannot be empty");
         Assert.isNull(typeClass, "type class cannot be empty");
-        Assert.isNotEmptyString(fieldName, "field name cannot be empty");
+        Assert.isEmptyString(fieldName, "field name cannot be empty");
 
         try {
             Field declaredField = clazz.getDeclaredField(fieldName);

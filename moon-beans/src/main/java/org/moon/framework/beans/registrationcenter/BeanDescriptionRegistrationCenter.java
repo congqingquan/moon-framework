@@ -3,7 +3,7 @@ package org.moon.framework.beans.registrationcenter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.moon.framework.beans.description.BeanDescription;
+import org.moon.framework.beans.description.basic.BeanDescription;
 import org.moon.framework.beans.exception.BeanNameRepetitionException;
 
 /**
