@@ -21,6 +21,8 @@ import org.moon.framework.core.utils.StringUtils;
  */
 public class BeansScanner {
 
+	private static BeanDescriptionGenerateHelper beanDescriptionGenerateHelper = BeanDescriptionGenerateHelper.get();
+
 	/**
 	 * 扫描根路径下的所有class文件
 	 * 
@@ -78,7 +80,7 @@ public class BeansScanner {
 			return null;
 		// 可装载
 		if (isLoadable(clazz, annotationClasses))
-			return BeanDescriptionGenerateHelper.get().generate(clazz);
+			return beanDescriptionGenerateHelper.generate(clazz);
 		return null;
 	}
 
@@ -140,14 +142,12 @@ public class BeansScanner {
 	 * 
 	 * @param scanPath
 	 *            扫描路径
-	 * @param anntations 指定注解类型
 	 * @return 若路径无效或路径下无符合的component则返回空的List集合
 	 */
-	@SafeVarargs
-	public static List<BeanDescription> scan(String scanClassPath, Class<? extends Annotation>... annotationClasses) {
+	public static List<BeanDescription> scan(String scanClassPath) {
 
 		Assert.isEmptyString(scanClassPath, "组件扫描路径不能为空!!!");
-
+		
 		// 1. 初始化装载BeanDescription的容器
 		List<BeanDescription> beanDescriptions = new ArrayList<>();
 
@@ -164,12 +164,19 @@ public class BeansScanner {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			// 5. 加载BeanDescription
-			BeanDescription loadedBeanDescription = loadBeanDescription(loadClass, annotationClasses);
-			if (null != loadedBeanDescription)
-				beanDescriptions.add(loadedBeanDescription);
-			else
-				continue;
+			
+			// 
+			
+			
+			// 可装载
+//			if (isLoadable(clazz, annotationClasses))
+//				return beanDescriptionGenerateHelper.generate(clazz);
+//			
+//			BeanDescription loadedBeanDescription = loadBeanDescription(loadClass, annotationClasses);
+//			if (null != loadedBeanDescription)
+//				beanDescriptions.add(loadedBeanDescription);
+//			else
+//				continue;
 		}
 		return beanDescriptions;
 	}
@@ -238,7 +245,7 @@ public class BeansScanner {
 		String basePackage = "org.moon.framework.beans";
 
 		// 扫描(注解类可以自定义传递,并不一定用@Component,可以自己实现一个类注解,但是根据传递路径扫描的类也只会是实现了此处传递的注解的类)
-		scan(basePackage, new Class[] {});
+		scan(basePackage);
 		// 打印
 	}
 }

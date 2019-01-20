@@ -23,10 +23,19 @@ public class MethodDescriptionGenerateHelper implements MethodDescriptionGenerat
 		return methodDescriptionGenerateHelper;
 	}
 
+	/**
+	 * 生成方法描述的工具方法
+	 * @param methodName 方法名称
+	 * @param params 参数
+	 * @param modifer 修饰符
+	 * @param retValType 返回值类型
+	 * @param methodInstance 方法的java.lang.reflect.Method实例
+	 * @return 方法描述实例
+	 */
 	@Override
 	public MethodDescription generate(String methodName, Class<?>[] params, String modifer, Class<?> retValType,
 			Method methodInstance) {
-		return null;
+		return MethodDescriptionGenerate.generateMethodDescription(methodName, params, modifer, retValType,
+				methodInstance);
 	}
-
 }

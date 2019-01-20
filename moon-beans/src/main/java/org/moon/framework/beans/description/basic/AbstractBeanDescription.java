@@ -34,15 +34,39 @@ public abstract class AbstractBeanDescription implements BeanDescription {
 	/**
 	 * 单例标记
 	 */
-	protected boolean isSingleton;
+	protected boolean isSingleton = true;
 	/**
 	 * 原型标记
 	 */
-	protected boolean isPrototype;
+	protected boolean isPrototype = false;
 	/**
 	 * 懒加载标记
 	 */
-	protected boolean isLazyInit;
+	protected boolean isLazyInit = false;
+	/**
+	 * 初始化函数名称
+	 */
+	protected String initMethodName;
+	/**
+	 * 销毁函数名称
+	 */
+	protected String destroyMethodName;
+
+	protected AbstractBeanDescription(Class<?> beanClass, String beanClassName, String[] aliases,
+			FieldDescription[] fields, MethodDescription[] methods, boolean isSingleton, boolean isPrototype,
+			boolean isLazyInit, String initMethodName, String destroyMethodName) {
+		super();
+		this.beanClass = beanClass;
+		this.beanClassName = beanClassName;
+		this.aliases = aliases;
+		this.fields = fields;
+		this.methods = methods;
+		this.isSingleton = isSingleton;
+		this.isPrototype = isPrototype;
+		this.isLazyInit = isLazyInit;
+		this.initMethodName = initMethodName;
+		this.destroyMethodName = destroyMethodName;
+	}
 
 	public String getBeanClassName() {
 		return beanClassName;
@@ -106,5 +130,21 @@ public abstract class AbstractBeanDescription implements BeanDescription {
 
 	public void setLazyInit(boolean isLazyInit) {
 		this.isLazyInit = isLazyInit;
+	}
+
+	public String getInitMethodName() {
+		return initMethodName;
+	}
+
+	public void setInitMethodName(String initMethodName) {
+		this.initMethodName = initMethodName;
+	}
+
+	public String getDestroyMethodName() {
+		return destroyMethodName;
+	}
+
+	public void setDestroyMethodName(String destroyMethodName) {
+		this.destroyMethodName = destroyMethodName;
 	}
 }

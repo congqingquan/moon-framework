@@ -13,15 +13,9 @@ import org.moon.framework.core.generate.Generatable;
 public interface BeanDescriptionGenerate extends Generatable<BeanDescription> {
 
 	/**
-	 * 生成Bean描述
-	 * @param beanClass Bean的Class实例
-	 * @param aliases Bean的别名
-	 * @param fields Bean的字段
-	 * @param methods Bean的函数
-	 * @param isSingleton 单例标记
-	 * @param isPrototype 原型标记
-	 * @param isAbstract 抽象标记
-	 * @return Bean描述实例
+	 * 生成Bean的信息描述实体
+	 * @param beanClass bean的Class
+	 * @return
 	 */
 	BeanDescription generate(Class<?> beanClass);
 }
