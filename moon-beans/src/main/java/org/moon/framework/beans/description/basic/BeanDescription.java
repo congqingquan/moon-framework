@@ -1,6 +1,6 @@
 package org.moon.framework.beans.description.basic;
 
-import org.moon.framework.beans.config.BeanDescriptionConfiguration;
+import org.moon.framework.beans.configuration.BeanDescriptionConfiguration;
 import org.moon.framework.beans.description.FieldDescription;
 import org.moon.framework.beans.description.MethodDescription;
 
@@ -23,9 +23,9 @@ public interface BeanDescription {
 	 */
 	String SCOPE_PROTOTYPE = BeanDescriptionConfiguration.SCOPE_PROTOTYPE;
 
-	String getBeanClassName();
+	String getBeanName();
 
-	void setBeanClassName(String beanClassName);
+	void setBeanName(String beanName);
 
 	Class<?> getBeanClass();
 

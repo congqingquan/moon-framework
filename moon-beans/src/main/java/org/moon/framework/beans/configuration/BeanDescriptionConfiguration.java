@@ -1,4 +1,4 @@
-package org.moon.framework.beans.config;
+package org.moon.framework.beans.configuration;
 
 /**
  * Created by 明月   on 2019-01-15 / 18:58

@@ -1,6 +1,7 @@
 package org.moon.framework.beans.description.generate;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import org.moon.framework.beans.description.MethodDescription;
 import org.moon.framework.core.generate.Generatable;
@@ -22,7 +23,7 @@ public interface MethodDescriptionGenerate extends Generatable<MethodDescription
 	 * @param methodInstance 方法的java.lang.reflect.Method实例
 	 * @return 方法描述实例
 	 */
-	MethodDescription generate(String methodName, Class<?>[] params, String modifer, Class<?> retValType,
+	MethodDescription generate(String methodName,  Parameter[] params, String modifer, Class<?> retValType,
 			Method methodInstance);
 
 	/**
@@ -34,7 +35,7 @@ public interface MethodDescriptionGenerate extends Generatable<MethodDescription
 	 * @param methodInstance 方法的java.lang.reflect.Method实例
 	 * @return 方法描述实例
 	 */
-	static MethodDescription generateMethodDescription(String methodName, Class<?>[] params, String modifer,
+	static MethodDescription generateMethodDescription(String methodName,  Parameter[] params, String modifer,
 			Class<?> retValType, Method methodInstance) {
 		return new MethodDescription(methodName, params, modifer, retValType, methodInstance);
 	}

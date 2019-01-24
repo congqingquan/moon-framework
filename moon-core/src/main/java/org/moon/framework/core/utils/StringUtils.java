@@ -85,4 +85,13 @@ public final class StringUtils {
 				return false;
 		return true;
 	}
+
+	/**
+	 * 获取首字母小写的Class名
+	 */
+	public static String getClassName(Class<?> clazz) {
+		String className = clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
+		char firstWord = Character.toLowerCase(className.charAt(0));
+		return firstWord + className.substring(1);
+	}
 }

@@ -1,5 +1,7 @@
 package org.moon.framework.beans.description.basic;
 
+import java.lang.reflect.Method;
+
 import org.moon.framework.beans.description.FieldDescription;
 import org.moon.framework.beans.description.MethodDescription;
 
@@ -16,9 +18,9 @@ public abstract class AbstractBeanDescription implements BeanDescription {
 	 */
 	protected Class<?> beanClass;
 	/**
-	 * Bean的类的全限定名
+	 * Bean的名称
 	 */
-	protected String beanClassName;
+	protected String beanName;
 	/**
 	 * 别名
 	 */
@@ -44,36 +46,36 @@ public abstract class AbstractBeanDescription implements BeanDescription {
 	 */
 	protected boolean isLazyInit = false;
 	/**
-	 * 初始化函数名称
+	 * 初始化函数Method实例
 	 */
-	protected String initMethodName;
+	protected Method[] initMethods;
 	/**
-	 * 销毁函数名称
+	 * 销毁函数Method实例
 	 */
-	protected String destroyMethodName;
+	protected Method[] destroyMethods;
 
-	protected AbstractBeanDescription(Class<?> beanClass, String beanClassName, String[] aliases,
-			FieldDescription[] fields, MethodDescription[] methods, boolean isSingleton, boolean isPrototype,
-			boolean isLazyInit, String initMethodName, String destroyMethodName) {
+	protected AbstractBeanDescription(Class<?> beanClass, String beanName, String[] aliases, FieldDescription[] fields,
+			MethodDescription[] methods, boolean isSingleton, boolean isPrototype, boolean isLazyInit,
+			Method[] initMethods, Method[] destroyMethods) {
 		super();
 		this.beanClass = beanClass;
-		this.beanClassName = beanClassName;
+		this.beanName = beanName;
 		this.aliases = aliases;
 		this.fields = fields;
 		this.methods = methods;
 		this.isSingleton = isSingleton;
 		this.isPrototype = isPrototype;
 		this.isLazyInit = isLazyInit;
-		this.initMethodName = initMethodName;
-		this.destroyMethodName = destroyMethodName;
+		this.initMethods = initMethods;
+		this.destroyMethods = destroyMethods;
 	}
 
-	public String getBeanClassName() {
-		return beanClassName;
+	public String getBeanName() {
+		return beanName;
 	}
 
-	public void setBeanClassName(String beanClassName) {
-		this.beanClassName = beanClassName;
+	public void setBeanName(String beanName) {
+		this.beanName = beanName;
 	}
 
 	public Class<?> getBeanClass() {
@@ -132,19 +134,19 @@ public abstract class AbstractBeanDescription implements BeanDescription {
 		this.isLazyInit = isLazyInit;
 	}
 
-	public String getInitMethodName() {
-		return initMethodName;
+	public Method[] getInitMethods() {
+		return initMethods;
 	}
 
-	public void setInitMethodName(String initMethodName) {
-		this.initMethodName = initMethodName;
+	public void setInitMethods(Method[] initMethods) {
+		this.initMethods = initMethods;
 	}
 
-	public String getDestroyMethodName() {
-		return destroyMethodName;
+	public Method[] getDestroyMethods() {
+		return destroyMethods;
 	}
 
-	public void setDestroyMethodName(String destroyMethodName) {
-		this.destroyMethodName = destroyMethodName;
+	public void setDestroyMethods(Method[] destroyMethods) {
+		this.destroyMethods = destroyMethods;
 	}
 }

@@ -8,15 +8,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by 明月   on 2019-01-15 / 15:58
+ * Created by 明月   on 2019-01-22 / 21:35
  *
  * @email: 1814031271@qq.com
  *
- * @Description: moon-framework基础组件的声明注解
+ * @Description: moon-framework 持久层接口标记注解
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Inherited
-public @interface MComponent {
+public @interface Repository {
+	String value() default "";
 }

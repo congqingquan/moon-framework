@@ -1,5 +1,6 @@
 package org.moon.framework.core.utils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -259,9 +260,45 @@ public final class ReflectionUtils {
 	}
 
 	/**
+	 * 获取标记了指定注解的单个或多个Method实例
+	 */
+	public static Method[] getMethodByAnnotation(Method[] methods, Class<? extends Annotation> annotation) {
+		Method[] result = null;
+		if (null != annotation && ArrayUtils.isNotEmpty(methods)) {
+			result = new Method[methods.length];
+			for (int i = 0; i < methods.length; i++) {
+				Method method = methods[i];
+				method.setAccessible(Boolean.TRUE);
+				if (method.getDeclaredAnnotation(annotation) != null) {
+					result[i] = method;
+				}
+			}
+			return result;
+		}
+		return null;
+	}
+
+	/**
+	 * 去除空数据并返回
+	 * @param source 源数组
+	 */
+	public static Method[] removeMethodArrayEmptyElement(Method[] source) {
+		Method[] result = null;
+		if (ArrayUtils.isNotEmpty(source)) {
+			result = new Method[ArrayUtils.validDataLength(source)];
+			for (int i = 0, j = 0; i < source.length; i++) {
+				if (null != source[i]) {
+					result[j++] = source[i];
+				}
+			}
+			return result;
+		}
+		return result;
+	}
+
+	/**
 	 * 执行无参无返回值结果的函数
 	 */
-
 	public static void invoke(Object instance, String methodName)
 			throws IllegalArgumentException, InvocationTargetException {
 		invoke0(instance, methodName, null, new Object[] {});

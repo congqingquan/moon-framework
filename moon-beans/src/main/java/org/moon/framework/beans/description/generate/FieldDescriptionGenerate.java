@@ -23,7 +23,7 @@ public interface FieldDescriptionGenerate extends Generatable<FieldDescription> 
 	 * @param fieldInstance 字段的java.lang.reflect.Field实例
 	 * @return 字段描述实例
 	 */
-	FieldDescription generate(String fieldName, Object value, String modifer, Class<?> type,
+	FieldDescription generate(String fieldName, String modifer, Class<?> type,
 			Field fieldInstance);
 
 	/**
@@ -35,8 +35,8 @@ public interface FieldDescriptionGenerate extends Generatable<FieldDescription> 
 	 * @param fieldInstance 字段的java.lang.reflect.Field实例
 	 * @return 字段描述实例
 	 */
-	static FieldDescription generateFieldDescription(String fieldName, Object value, String modifer, Class<?> type,
+	static FieldDescription generateFieldDescription(String fieldName, String modifer, Class<?> type,
 			Field fieldInstance) {
-		return new FieldDescription(fieldName, value, modifer, type, fieldInstance);
+		return new FieldDescription(fieldName, modifer, type, fieldInstance);
 	}
 }

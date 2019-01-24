@@ -33,8 +33,7 @@ public class FieldDescriptionGenerateHelper implements FieldDescriptionGenerate 
 	 * @return 字段描述实例
 	 */
 	@Override
-	public FieldDescription generate(String fieldName, Object value, String modifer, Class<?> type,
-			Field fieldInstance) {
-		return FieldDescriptionGenerate.generateFieldDescription(fieldName, value, modifer, type, fieldInstance);
+	public FieldDescription generate(String fieldName, String modifer, Class<?> type, Field fieldInstance) {
+		return FieldDescriptionGenerate.generateFieldDescription(fieldName, modifer, type, fieldInstance);
 	}
 }

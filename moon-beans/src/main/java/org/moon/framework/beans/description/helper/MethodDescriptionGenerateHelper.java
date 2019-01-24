@@ -1,6 +1,7 @@
 package org.moon.framework.beans.description.helper;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import org.moon.framework.beans.description.MethodDescription;
 import org.moon.framework.beans.description.generate.MethodDescriptionGenerate;
@@ -33,7 +34,7 @@ public class MethodDescriptionGenerateHelper implements MethodDescriptionGenerat
 	 * @return 方法描述实例
 	 */
 	@Override
-	public MethodDescription generate(String methodName, Class<?>[] params, String modifer, Class<?> retValType,
+	public MethodDescription generate(String methodName, Parameter[] params, String modifer, Class<?> retValType,
 			Method methodInstance) {
 		return MethodDescriptionGenerate.generateMethodDescription(methodName, params, modifer, retValType,
 				methodInstance);

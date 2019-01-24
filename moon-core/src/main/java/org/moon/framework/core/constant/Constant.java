@@ -54,11 +54,11 @@ public class Constant {
 		/**
 		 * class-path utf8 string
 		 */
-		String CLASSPATH_UTF8 = convertClassPath(Encoding.UTF8);
+		String CLASSPATH_UTF8 = convertClassPath(CLASSPATH_URL.getPath(), Encoding.UTF8);
 
-		static String convertClassPath(String encoding) {
+		static String convertClassPath(String path,String encoding) {
 			try {
-				return URLDecoder.decode(CLASSPATH_URL.getPath(), encoding);
+				return URLDecoder.decode(path, encoding);
 			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException("溶解ClassPath为UTF8编码失败");
 			}

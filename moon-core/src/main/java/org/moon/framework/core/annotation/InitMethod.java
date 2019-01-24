@@ -7,15 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by 明月   on 2019-01-16 / 16:23
+ * Created by 明月   on 2019-01-22 / 23:39
  *
  * @email: 1814031271@qq.com
  *
- * @Description: 作用域注解
+ * @Description: Bean初始化时执行的函数的标记注解
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
-public @interface MScope {
-
+@Target(ElementType.METHOD)
+public @interface InitMethod {
+	
+	
+	
 }

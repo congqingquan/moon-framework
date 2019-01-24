@@ -1,8 +1,7 @@
 package org.moon.framework.beans.description;
 
 import java.lang.reflect.Method;
-
-import org.moon.framework.beans.description.helper.MethodDescriptionGenerateHelper;
+import java.lang.reflect.Parameter;
 
 /**
  * Created by 明月   on 2019-01-13 / 18:16
@@ -13,13 +12,12 @@ import org.moon.framework.beans.description.helper.MethodDescriptionGenerateHelp
  */
 public class MethodDescription {
 	private String methodName;
-	private Class<?>[] params;
+	private Parameter[] params;
 	private String modifer;
 	private Class<?> retValType;
 	private Method methodInstance;
-	private static MethodDescriptionGenerateHelper methodDescriptionGenerateHelper = MethodDescriptionGenerateHelper.get();
 
-	public MethodDescription(String methodName, Class<?>[] params, String modifer, Class<?> retValType,
+	public MethodDescription(String methodName,  Parameter[] params, String modifer, Class<?> retValType,
 			Method methodInstance) {
 		super();
 		this.methodName = methodName;
@@ -37,11 +35,11 @@ public class MethodDescription {
 		this.methodName = methodName;
 	}
 
-	public Class<?>[] getParams() {
+	public Parameter[] getParams() {
 		return params;
 	}
 
-	public void setParams(Class<?>[] params) {
+	public void setParams(Parameter[] params) {
 		this.params = params;
 	}
 
@@ -67,10 +65,5 @@ public class MethodDescription {
 
 	public void setMethodInstance(Method methodInstance) {
 		this.methodInstance = methodInstance;
-	}
-	
-	public static MethodDescription generate(String methodName, Class<?>[] params, String modifer, Class<?> retValType,
-			Method methodInstance) {
-		return methodDescriptionGenerateHelper.generate(methodName, params, modifer, retValType, methodInstance);
 	}
 }
