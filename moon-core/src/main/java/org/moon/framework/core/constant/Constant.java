@@ -54,15 +54,7 @@ public class Constant {
 		/**
 		 * class-path utf8 string
 		 */
-		String CLASSPATH_UTF8 = convertClassPath(CLASSPATH_URL.getPath(), Encoding.UTF8);
-
-		static String convertClassPath(String path,String encoding) {
-			try {
-				return URLDecoder.decode(path, encoding);
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException("溶解ClassPath为UTF8编码失败");
-			}
-		}
+		String CLASSPATH = CLASSPATH_URL.getPath();
 	}
 
 	/**

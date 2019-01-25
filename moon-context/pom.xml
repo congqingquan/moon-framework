@@ -7,4 +7,12 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>moon-context</artifactId>
+
+	<dependencies>
+		<!-- Beans Model -->
+		<dependency>
+			<groupId>org.moon.framework</groupId>
+			<artifactId>moon-beans</artifactId>
+		</dependency>
+	</dependencies>
 </project>
