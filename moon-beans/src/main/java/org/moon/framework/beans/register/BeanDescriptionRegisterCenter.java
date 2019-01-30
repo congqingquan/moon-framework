@@ -1,5 +1,6 @@
 package org.moon.framework.beans.register;
 
+import org.moon.framework.beans.container.BeansDescriptionContainer;
 import org.moon.framework.beans.description.basic.BeanDescription;
 
 /**
@@ -17,4 +18,5 @@ public interface BeanDescriptionRegisterCenter {
 
 	void remove(String beanName);
 
+	BeansDescriptionContainer getBeanDescriptionContainer();
 }

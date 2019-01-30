@@ -1,4 +1,4 @@
-package org.moon.framework.beans.cache;
+package org.moon.framework.context.cache;
 
 /**
  * Created by 明月 on 2019-01-25 / 18:16

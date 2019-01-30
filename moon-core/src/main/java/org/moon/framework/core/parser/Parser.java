@@ -10,5 +10,4 @@ package org.moon.framework.core.parser;
 public interface Parser<T> {
 
 	T parse(Class<?> loadClass);
-
 }

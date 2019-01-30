@@ -10,7 +10,4 @@ public class MoonContextBootstrap {
 
     public MoonContextBootstrap(Class<?> startupClass, String[] startParams) {
     }
-
-    public static void main(String[] args) throws Exception {
-    }
 }

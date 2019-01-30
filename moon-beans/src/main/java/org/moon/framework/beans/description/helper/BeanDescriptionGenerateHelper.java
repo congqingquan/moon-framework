@@ -1,9 +1,6 @@
 package org.moon.framework.beans.description.helper;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
+import org.moon.framework.beans.annotation.*;
 import org.moon.framework.beans.configuration.BeanDescriptionConfiguration;
 import org.moon.framework.beans.description.FieldDescription;
 import org.moon.framework.beans.description.GenericBeanDescription;
@@ -11,14 +8,13 @@ import org.moon.framework.beans.description.MethodDescription;
 import org.moon.framework.beans.description.basic.BeanDescription;
 import org.moon.framework.beans.description.generate.BeanDescriptionGenerate;
 import org.moon.framework.beans.exception.BeanAliasException;
-import org.moon.framework.core.annotation.Alias;
-import org.moon.framework.core.annotation.DestroyMethod;
-import org.moon.framework.core.annotation.InitMethod;
-import org.moon.framework.core.annotation.LazyLoad;
-import org.moon.framework.core.annotation.Scope;
 import org.moon.framework.core.utils.ArrayUtils;
 import org.moon.framework.core.utils.ReflectionUtils;
 import org.moon.framework.core.utils.StringUtils;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * Created by 明月   on 2019-01-14 / 22:35

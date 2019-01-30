@@ -1,11 +1,11 @@
 package org.moon.framework.beans.test;
 
-import org.moon.framework.core.annotation.Alias;
-import org.moon.framework.core.annotation.Component;
-import org.moon.framework.core.annotation.DestroyMethod;
-import org.moon.framework.core.annotation.InitMethod;
-import org.moon.framework.core.annotation.LazyLoad;
-import org.moon.framework.core.annotation.Scope;
+import org.moon.framework.beans.annotation.Alias;
+import org.moon.framework.beans.annotation.Component;
+import org.moon.framework.beans.annotation.DestroyMethod;
+import org.moon.framework.beans.annotation.InitMethod;
+import org.moon.framework.beans.annotation.LazyLoad;
+import org.moon.framework.beans.annotation.Scope;
 
 //@Scope(scope = ScopeSelector.PROTOTYPE)
 @Scope
