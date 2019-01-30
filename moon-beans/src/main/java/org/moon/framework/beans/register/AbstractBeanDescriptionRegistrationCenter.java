@@ -43,7 +43,7 @@ public abstract class AbstractBeanDescriptionRegistrationCenter implements BeanD
      * @return
      */
     @Override
-    public Object get(String beanName) {
+    public BeanDescription get(String beanName) {
         return GENERIC_BEANSDESCRIPTION_CONTAINER.getBeanDescription(beanName);
     }
 

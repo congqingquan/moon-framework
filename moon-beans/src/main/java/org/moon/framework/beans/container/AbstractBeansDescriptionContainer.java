@@ -24,7 +24,7 @@ public abstract class AbstractBeansDescriptionContainer implements BeansDescript
     }
 
     @Override
-    public Object getBeanDescription(String beanName) {
+    public BeanDescription getBeanDescription(String beanName) {
         return BEANDESCRIPTION_REGISTRATION_CENTER.get(beanName);
     }
 

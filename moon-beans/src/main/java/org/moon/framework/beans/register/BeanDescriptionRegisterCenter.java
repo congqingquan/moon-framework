@@ -14,7 +14,7 @@ public interface BeanDescriptionRegisterCenter {
 	
 	void register(String beanName, BeanDescription beanDescription);
 
-	Object get(String beanName);
+	BeanDescription get(String beanName);
 
 	void remove(String beanName);
 

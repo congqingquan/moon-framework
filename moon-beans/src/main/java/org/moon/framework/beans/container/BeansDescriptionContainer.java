@@ -15,7 +15,7 @@ public interface BeansDescriptionContainer {
 
     void putBeanDescription(String beanName, BeanDescription beanDescription);
 
-    Object getBeanDescription(String beanName);
+    BeanDescription getBeanDescription(String beanName);
 
     void removeBeanDescription(String beanName);
 
