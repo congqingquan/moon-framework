@@ -4,54 +4,63 @@ import org.moon.framework.beans.configuration.BeanDescriptionConfiguration;
 import org.moon.framework.beans.description.FieldDescription;
 import org.moon.framework.beans.description.MethodDescription;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by 明月   on 2019-01-15 / 18:41
  *
  * @email: 1814031271@qq.com
- *
  * @Description: Bean信息描述
  */
 public interface BeanDescription {
 
-	/**
-	 * 单例
-	 */
-	String SCOPE_SINGLETON = BeanDescriptionConfiguration.SCOPE_SINGLETON;
+    /**
+     * 单例
+     */
+    String SCOPE_SINGLETON = BeanDescriptionConfiguration.SCOPE_SINGLETON;
 
-	/**
-	 * 多例
-	 */
-	String SCOPE_PROTOTYPE = BeanDescriptionConfiguration.SCOPE_PROTOTYPE;
+    /**
+     * 多例
+     */
+    String SCOPE_PROTOTYPE = BeanDescriptionConfiguration.SCOPE_PROTOTYPE;
 
-	String getBeanName();
+    String getBeanName();
 
-	void setBeanName(String beanName);
+    void setBeanName(String beanName);
 
-	Class<?> getBeanClass();
+    Class<?> getBeanClass();
 
-	void setBeanClass(Class<?> beanClass);
+    void setBeanClass(Class<?> beanClass);
 
-	boolean isPrototype();
+    boolean isPrototype();
 
-	void setPrototype(boolean isPrototype);
+    void setPrototype(boolean isPrototype);
 
-	String[] getAliases();
+    String[] getAliases();
 
-	void setAliases(String[] aliases);
+    void setAliases(String[] aliases);
 
-	FieldDescription[] getFields();
+    FieldDescription[] getFields();
 
-	void setFields(FieldDescription[] fields);
+    void setFields(FieldDescription[] fields);
 
-	MethodDescription[] getMethods();
+    MethodDescription[] getMethods();
 
-	void setMethods(MethodDescription[] methods);
+    void setMethods(MethodDescription[] methods);
 
-	boolean isSingleton();
+    boolean isSingleton();
 
-	void setSingleton(boolean isSingleton);
+    void setSingleton(boolean isSingleton);
 
-	boolean isLazyInit();
+    boolean isLazyInit();
 
-	void setLazyInit(boolean isLazyInit);
+    void setLazyInit(boolean isLazyInit);
+
+    Method[] getInitMethods();
+
+    void setInitMethods(Method[] initMethods);
+
+    Method[] getDestroyMethods();
+
+    void setDestroyMethods(Method[] destroyMethods);
 }

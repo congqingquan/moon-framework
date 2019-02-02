@@ -31,7 +31,7 @@ public class ClassPathDissolver {
             // 2. 获取启动类在磁盘中的绝对路径
             startupClassQualifiedNamePath = getAbsolutePathByQualifiedNamePath(startupClassQualifiedNamePath);
             // 3. 获取启动类所在目录下的所有类文件的绝对路径
-            List<String> classFileAbsolutePaths = getClassPathsByRootPath(startupClassQualifiedNamePath);
+            List<String> classFileAbsolutePaths = getClassPathsByClassQualifiedNamePath(startupClassQualifiedNamePath);
             String next;
             // 4. 解析扫描到的类文件的全限定名格式路径
             for (Iterator<String> iterator = classFileAbsolutePaths.iterator(); iterator.hasNext(); ) {
@@ -42,16 +42,16 @@ public class ClassPathDissolver {
     }
 
     /**
-     * 扫描根路径下的所有class文件
+     * 扫描根路径下的所有class文件的路径
      *
-     * @param rootPath 扫描的根据经
+     * @param classQualifiedNamePath 扫描的根据经
      * @return class文件的路径集合
      */
-    public static List<String> getClassPathsByRootPath(String rootPath) {
+    public static List<String> getClassPathsByClassQualifiedNamePath(String classQualifiedNamePath) {
         List<String> classesPath = null;
-        if (StringUtils.isNotEmpty(rootPath)) {
+        if (StringUtils.isNotEmpty(classQualifiedNamePath)) {
             classesPath = new ArrayList<>();
-            File[] listFiles = new File(rootPath).listFiles();
+            File[] listFiles = new File(classQualifiedNamePath).listFiles();
             if (null != listFiles) {
                 for (int i = 0; i < listFiles.length; i++)
                     addBeanPathToList(listFiles[i], classesPath);
@@ -91,7 +91,8 @@ public class ClassPathDissolver {
      * @return 类的绝对路径
      */
     public static String getAbsolutePathByQualifiedNamePath(String qualifiedNamePath) {
-        return Constant.Path.CLASSPATH + qualifiedNamePath.replace(".", "/");
+        String absolutePath = Constant.Path.CLASSPATH + qualifiedNamePath.replace(".", "/");
+        return absolutePath.substring(0, absolutePath.lastIndexOf("/"));
     }
 
     /**

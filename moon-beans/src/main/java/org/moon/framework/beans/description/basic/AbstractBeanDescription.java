@@ -1,9 +1,9 @@
 package org.moon.framework.beans.description.basic;
 
-import java.lang.reflect.Method;
-
 import org.moon.framework.beans.description.FieldDescription;
 import org.moon.framework.beans.description.MethodDescription;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by 明月   on 2019-01-15 / 20:23
@@ -40,11 +40,11 @@ public abstract class AbstractBeanDescription implements BeanDescription {
 	/**
 	 * 原型标记
 	 */
-	protected boolean isPrototype = false;
+	protected boolean isPrototype;
 	/**
 	 * 懒加载标记
 	 */
-	protected boolean isLazyInit = false;
+	protected boolean isLazyInit;
 	/**
 	 * 初始化函数Method实例
 	 */

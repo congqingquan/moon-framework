@@ -15,7 +15,5 @@
 			<groupId>org.moon.framework</groupId>
 			<artifactId>moon-core</artifactId>
 		</dependency>
-
-		<!-- 日志 -->
 	</dependencies>
 </project>

@@ -72,7 +72,10 @@ public class BeansDescriptionScanner {
             }
 
             // 加载BeanDescription
-            beanDescriptions.add(beanDescriptionParser.parse(loadClass));
+            BeanDescription loadBean = beanDescriptionParser.parse(loadClass);
+            if (null != loadBean) {
+                beanDescriptions.add(loadBean);
+            }
         }
         return beanDescriptions;
     }

@@ -8,4 +8,5 @@ package org.moon.framework.context.factory;
  */
 public interface BeanFactory {
     Object getBean(String beanName);
+    Object getBean(Class<?> beanClass);
 }

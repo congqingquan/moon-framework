@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public interface BeansDescriptionContainer {
 
+
     void putBeanDescription(String beanName, BeanDescription beanDescription);
 
     BeanDescription getBeanDescription(String beanName);

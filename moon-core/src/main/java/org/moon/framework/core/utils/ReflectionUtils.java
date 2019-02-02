@@ -260,7 +260,7 @@ public final class ReflectionUtils {
 	}
 
 	/**
-	 * 获取标记了指定注解的单个或多个Method实例
+	 * 从methods中获取标记了指定注解的单个或多个Method实例
 	 */
 	public static Method[] getMethodByAnnotation(Method[] methods, Class<? extends Annotation> annotation) {
 		Method[] result = null;
