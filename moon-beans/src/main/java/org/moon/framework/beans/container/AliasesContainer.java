@@ -8,12 +8,13 @@ import java.util.Map;
  * @email: 1814031271@qq.com
  * @Description: 别名容器接口
  */
-public interface AliasesContainer {
-    Map<String, String> getAliasContainer();
+public interface AliasesContainer extends BeanNameBind {
 
     void bind(String alias, String beanName);
 
-    void unbind(String alias);
+    void unbind(String beanName);
 
-    String getBeanNameByAlias(String beanName);
+    Map<String, String> getAliasContainer();
+
+    String getBeanNameByAlias(String alias);
 }

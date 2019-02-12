@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by 明月 on 2019-02-01 / 19:27
  *
  * @email: 1814031271@qq.com
- * @Description:
+ * @Description: 别名映射
  */
-public class GenericAliasesContainer implements AliasesContainer {
+public class AliasesMapping implements AliasesContainer {
 
     protected final Map<String, String> ALIASES_BEANNAME = new ConcurrentHashMap<>();
 
@@ -18,9 +18,8 @@ public class GenericAliasesContainer implements AliasesContainer {
         return ALIASES_BEANNAME;
     }
 
-    @Override
     public void bind(String alias, String beanName) {
-        ALIASES_BEANNAME.put(alias, beanName);
+        ALIASES_BEANNAME.put(alias.toString(), beanName);
     }
 
     @Override

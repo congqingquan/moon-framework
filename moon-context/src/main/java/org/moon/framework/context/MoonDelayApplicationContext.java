@@ -13,4 +13,5 @@ public class MoonDelayApplicationContext extends AbstractGenericBeanFactory {
     public MoonDelayApplicationContext(Class<?> startupClass) {
         register(startupClass);
     }
+
 }

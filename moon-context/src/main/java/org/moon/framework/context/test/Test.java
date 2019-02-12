@@ -11,6 +11,7 @@ import org.moon.framework.context.MoonApplicationContext;
 public class Test {
 
     public static void main(String[] args) {
+
         // 预记载模式
         MoonApplicationContext context = new MoonApplicationContext(Run.class);
 
@@ -27,5 +28,13 @@ public class Test {
         System.out.println(beanAliases1 == person);
         System.out.println(beanAliases2 == person);
         System.out.println(beanAliases3 == person);
+
+        // 通过Type获取Bean
+        Person p1 = context.getBean(Person.class);
+        Person p2 = context.getBean(Person.class);
+        System.out.println(p1 == p2);
+
+        Object temp = context.getBean(Object.class);
+        System.out.println(temp);
     }
 }

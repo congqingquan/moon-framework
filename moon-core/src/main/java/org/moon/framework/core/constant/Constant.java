@@ -1,8 +1,6 @@
 package org.moon.framework.core.constant;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLDecoder;
 
 /**
  * Created by 明月   on 2019-01-13 / 22:38
@@ -14,9 +12,14 @@ import java.net.URLDecoder;
 public class Constant {
 
 	/**
+	 * Object class instance
+	 */
+	public static final Class<?> OBJECT_CLASS = Object.class;
+
+	/**
 	 * Encoding format
 	 */
-	public static interface Encoding {
+	public interface Encoding {
 		/**
 		 * UTF8
 		 */
@@ -36,7 +39,7 @@ public class Constant {
 	/**
 	 * File type
 	 */
-	public static interface FileType {
+	public interface FileType {
 		/**
 		 * Class
 		 */
@@ -46,11 +49,11 @@ public class Constant {
 	/**
 	 * Path constant
 	 */
-	public static interface Path {
+	public interface Path {
 		/**
 		 * class-path's URL instance
 		 */
-		URL CLASSPATH_URL = Thread.currentThread().getContextClassLoader().getResource("");
+		URL CLASSPATH_URL = Thread.currentThread().getContextClassLoader().getResource(Empty.CHAR_SEQUENCE);
 		/**
 		 * class-path utf8 string
 		 */
@@ -60,7 +63,7 @@ public class Constant {
 	/**
 	 * Empty properties
 	 */
-	public static interface Empty {
+	public interface Empty {
 		/**
 		 * instance
 		 */

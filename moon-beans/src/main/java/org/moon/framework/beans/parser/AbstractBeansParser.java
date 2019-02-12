@@ -5,9 +5,11 @@ import org.moon.framework.beans.annotation.Repository;
 import org.moon.framework.beans.annotation.Service;
 import org.moon.framework.beans.description.basic.BeanDescription;
 import org.moon.framework.beans.description.helper.BeanDescriptionGenerateHelper;
+import org.moon.framework.beans.exception.BeanParseException;
 import org.moon.framework.core.parser.Parser;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
 
 /**
  * Created by 明月   on 2019-01-22 / 21:46
@@ -43,10 +45,16 @@ public abstract class AbstractBeansParser implements Parser<BeanDescription>{
 	protected boolean isLoadable(Class<?> clazz, 
 			@SuppressWarnings("unchecked") Class<? extends Annotation>... annotationClasses) {
 		for (int i = 0; i < annotationClasses.length; i++) {
-			if (clazz.getDeclaredAnnotation(annotationClasses[i]) == null)
+			if (clazz.getDeclaredAnnotation(annotationClasses[i]) == null) {
 				continue;
-			else
-				return true;
+            }
+			else {
+			    // 如果在抽象类中标记了组件注解则直接抛出异常
+                if(Modifier.isAbstract(clazz.getModifiers())) {
+                    throw new BeanParseException("组件不能为Abstract");
+                }
+                return true;
+			}
 		}
 		return false;
 	}
