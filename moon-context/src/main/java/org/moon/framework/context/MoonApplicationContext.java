@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by 明月 on 2019-01-25 / 18:06
  *
  * @email: 1814031271@qq.com
- * @Description: 上下文环境(预加载)
+ * @Description: IOC上下文环境(预加载)
  */
 public class MoonApplicationContext extends AbstractGenericBeanFactory {
 

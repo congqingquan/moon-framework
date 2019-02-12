@@ -1,4 +1,4 @@
-package org.moon.framework.beans.annotation;
+package org.moon.framework.beans.annotation.functional;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

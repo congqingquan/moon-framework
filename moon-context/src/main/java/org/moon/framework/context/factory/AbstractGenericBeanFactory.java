@@ -1,11 +1,13 @@
 package org.moon.framework.context.factory;
 
+import org.moon.framework.beans.annotation.functional.Inject;
 import org.moon.framework.beans.container.AliasesContainer;
 import org.moon.framework.beans.container.AliasesMapping;
 import org.moon.framework.beans.container.TypeContainer;
 import org.moon.framework.beans.container.TypeMapping;
 import org.moon.framework.beans.description.basic.BeanDescription;
 import org.moon.framework.beans.exception.BeanAliasException;
+import org.moon.framework.beans.exception.InjectBeanException;
 import org.moon.framework.beans.exception.NoUniqueBeanException;
 import org.moon.framework.beans.register.BeanDescriptionRegisterCenter;
 import org.moon.framework.beans.register.GenericBeanDescriptionRegistrationCenter;
@@ -15,6 +17,7 @@ import org.moon.framework.core.utils.ArrayUtils;
 import org.moon.framework.core.utils.ReflectionUtils;
 import org.moon.framework.core.utils.StringUtils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -33,7 +36,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
     /**
      * 单例Bean的缓存容器
      */
-    protected final SingletonBeanCacheContainer singletonBeanCacheContainer = new SingletonBeanCacheContainer();
+    public final SingletonBeanCacheContainer singletonBeanCacheContainer = new SingletonBeanCacheContainer();
 
     /**
      * Bean描述注册中心
@@ -71,12 +74,14 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
             beanDescriptionRegistrationCenter.register(beanDescription.getBeanName(), beanDescription);
             // 2.2 校验是否含有重复别名且对别名进行维护(aliases: beanName)
             String[] beanDescriptionAliases = beanDescription.getAliases();
-            String beanName = beanDescription.getBeanName();
-            for (int i = 0; i < beanDescriptionAliases.length; i++) {
-                if (!checkAliases.add(beanDescriptionAliases[i])) {
-                    throw new BeanAliasException("别名重复: " + beanDescriptionAliases[i]);
+            if(null != beanDescriptionAliases) {
+                String beanName = beanDescription.getBeanName();
+                for (int i = 0; i < beanDescriptionAliases.length; i++) {
+                    if (!checkAliases.add(beanDescriptionAliases[i])) {
+                        throw new BeanAliasException("别名重复: " + beanDescriptionAliases[i]);
+                    }
+                    aliasesMapping.bind(beanDescriptionAliases[i], beanName);
                 }
-                aliasesMapping.bind(beanDescriptionAliases[i], beanName);
             }
             // 2.3 获取Bean的Class与父级类的Class以及实现接口的Class(包含父类实现的)并与BeanName绑定
             List<Class> typeClasses = ReflectionUtils.getSuperClasses(beanDescription.getBeanClass());
@@ -103,19 +108,68 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
      * @param beanDescription Bean的描述信息
      */
     protected Object instantiateBean(BeanDescription beanDescription) {
+        // 1. 实例化Bean
+        Object newInstance = singletonBeanCacheContainer.get(beanDescription.getBeanName());
+        if(null == newInstance) {
+            newInstance = ReflectionUtils.newInstance(beanDescription.getBeanClass().getName());
+        }
 
-        Object newInstance = ReflectionUtils.newInstance(beanDescription.getBeanClass().getName());
+        // 2. 获取Bean的需要注入的成员属性
+        Field[] fieldByAnnotation = ReflectionUtils.getFieldByAnnotation(beanDescription.getBeanClass(), Inject.class);
+        if (null != fieldByAnnotation) {
+            // 3. 注入扫描到的成员属性
+            for (int i = 0; i < fieldByAnnotation.length; i++) {
+                Field field = fieldByAnnotation[i];
+                // 3.1 获取配置的BeanName
+                String beanName = field.getDeclaredAnnotation(Inject.class).value();
+                Object getBean = null;
+                // 3.1.1 如果未配置则通过Type进行适配
+                if (StringUtils.isBlank(beanName)) {
+                    getBean = getBean(field.getType());
+                    if (null != getBean) {
+                        beanName = typeMapping.getBeanNameByType(field.getType());
+                    }
+                }
+                // 3.1.2 如果配置则通过配置的BeanName进行适配
+                else {
+                    String beanNameByAlias = aliasesMapping.getBeanNameByAlias(beanName);
+                    if (StringUtils.isNotBlank(beanNameByAlias)) {
+                        beanName = beanNameByAlias;
+                    }
+                    getBean = getBean(beanName);
+                }
+                // 3.2 适配成功后需要对适配的Bean也标记了注入注解的成员也进行适配(递归直至当前的适配Bean不含有标记了注入注解的成员)
+                if (null != getBean) {
+                    try {
+                        field.set(newInstance, getBean);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // 3.3 适配失败则说明适配属性的源类没有标记为组件,抛出注入失败异常
+                else {
+                    String beanNameInAnnotation = field.getDeclaredAnnotation(Inject.class).value();
+                    if (StringUtils.isNotBlank(beanNameInAnnotation)) {
+                        throw new InjectBeanException("注入Bean失败! 未找到Name为: " + beanNameInAnnotation + " 的Bean!");
+                    } else {
+                        throw new InjectBeanException("注入Bean失败! 未找到Type为: " + field.getType() + " 的Bean!");
+                    }
+                }
+            }
+        }
 
-        // 执行初始化函数
+        // 3. 执行初始化函数
         Method[] initMethods = beanDescription.getInitMethods();
-        for (int i = 0; i < initMethods.length; i++) {
-            try {
-                initMethods[i].setAccessible(true);
-                initMethods[i].invoke(newInstance, new Object[]{});
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+        if(null != initMethods) {
+            for (int i = 0; i < initMethods.length; i++) {
+                try {
+                    initMethods[i].setAccessible(true);
+                    initMethods[i].invoke(newInstance, new Object[]{});
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return newInstance;
@@ -200,7 +254,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
         String beanNameByType = typeMapping.getBeanNameByType(beanClass);
 
         // 2. 若未注册TypeMapping则返回null
-        if(StringUtils.isBlank(beanNameByType)) {
+        if (StringUtils.isBlank(beanNameByType)) {
             return null;
         }
 

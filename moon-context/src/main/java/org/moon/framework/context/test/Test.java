@@ -1,6 +1,7 @@
 package org.moon.framework.context.test;
 
 import org.moon.framework.context.MoonApplicationContext;
+import org.moon.framework.context.cache.SingletonBeanCacheContainer;
 
 /**
  * Created by 明月 on 2019-02-01 / 17:24
@@ -18,8 +19,17 @@ public class Test {
         // 默认为单例Bean
         Object person = context.getBean("person");
         Object person2 = context.getBean("person");
-
         System.out.println(person == person2);
+
+        // 注入的单例Bean是否为单例
+        Object dylan = context.getBean("dylan");
+        System.out.println(((Person) person).getFoot() == ((Dylan) dylan).getFoot());
+        System.out.println(((Person) person).getHand() == ((Dylan) dylan).getHand());
+
+        System.out.println("==============");
+        System.out.println(((Person) person).getFoot().getToe() == ((Dylan) dylan).getFoot().getToe());
+        System.out.println("==============");
+
 
         // 别名测试
         Object beanAliases1 = context.getBean("beanAliases1");
@@ -36,5 +46,9 @@ public class Test {
 
         Object temp = context.getBean(Object.class);
         System.out.println(temp);
+
+
+        SingletonBeanCacheContainer singletonBeanCacheContainer = context.singletonBeanCacheContainer;
+        System.out.println();
     }
 }

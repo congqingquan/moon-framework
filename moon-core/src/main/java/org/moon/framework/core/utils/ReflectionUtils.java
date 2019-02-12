@@ -135,6 +135,26 @@ public final class ReflectionUtils {
     }
 
     /**
+     * 获取添加了指定注解的Field实例
+     */
+    public static Field[] getFieldByAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
+        Field[] result = null;
+        if (null != annotation && clazz != null) {
+            Field[] fields = clazz.getDeclaredFields();
+            result = new Field[fields.length];
+            for (int i = 0; i < fields.length; i++) {
+                Field field = fields[i];
+                field.setAccessible(Boolean.TRUE);
+                if (field.getDeclaredAnnotation(annotation) != null) {
+                    result[i] = field;
+                }
+            }
+            return removeFieldArrayEmptyElement(result);
+        }
+        return result;
+    }
+
+    /**
      * 获取所有的字段的{Name, Filed}形式的映射对,若无字段属性则返回null
      */
     public static Map<String, Field> getFieldsMap(Class<?> clazz) {
@@ -148,6 +168,30 @@ public final class ReflectionUtils {
             }
         }
         return map;
+    }
+
+    /**
+     * 去除空数据并返回
+     *
+     * @param source 源数组
+     */
+    public static Field[] removeFieldArrayEmptyElement(Field[] source) {
+        Field[] result = null;
+        if (ArrayUtils.isNotEmpty(source)) {
+            Integer length = ArrayUtils.validDataLength(source);
+            if (length != 0) {
+                result = new Field[length];
+                for (int i = 0, j = 0; i < source.length; i++) {
+                    if (null != source[i]) {
+                        result[j++] = source[i];
+                    }
+                }
+                return result;
+            } else {
+                return new Field[0];
+            }
+        }
+        return result;
     }
 
     /**
@@ -198,7 +242,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取所有字段实例名的列表,若无字段属性则返回null
+     * 获取所有函数的列表,若无函数返回null
      */
     public static String[] getMethodNames(Class<?> clazz) {
         Map<String, Method> methodsMap = null;
@@ -217,7 +261,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取所有字段实例的列表,若无字段属性则返回null
+     * 获取所有函数的实例列表,若无函数则返回null
      */
     public static Method[] getMethodInstances(Class<?> clazz) {
         Method[] methods = null;
@@ -227,7 +271,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * 获取所有的字段的{Name, Filed}形式的映射对,若无字段属性则返回null
+     * 获取所有的函数的{Name, Method}形式的映射对,若无函数则返回null
      */
     public static Map<String, Method> getMethodsMap(Class<?> clazz) {
         Map<String, Method> methodMap = null;
@@ -258,9 +302,10 @@ public final class ReflectionUtils {
     /**
      * 从methods中获取标记了指定注解的单个或多个Method实例
      */
-    public static Method[] getMethodByAnnotation(Method[] methods, Class<? extends Annotation> annotation) {
+    public static Method[] getMethodByAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
         Method[] result = null;
-        if (null != annotation && ArrayUtils.isNotEmpty(methods)) {
+        if (null != annotation && annotation != null) {
+            Method[] methods = clazz.getDeclaredMethods();
             result = new Method[methods.length];
             for (int i = 0; i < methods.length; i++) {
                 Method method = methods[i];
@@ -269,7 +314,7 @@ public final class ReflectionUtils {
                     result[i] = method;
                 }
             }
-            return result;
+            return removeMethodArrayEmptyElement(result);
         }
         return null;
     }
@@ -282,13 +327,18 @@ public final class ReflectionUtils {
     public static Method[] removeMethodArrayEmptyElement(Method[] source) {
         Method[] result = null;
         if (ArrayUtils.isNotEmpty(source)) {
-            result = new Method[ArrayUtils.validDataLength(source)];
-            for (int i = 0, j = 0; i < source.length; i++) {
-                if (null != source[i]) {
-                    result[j++] = source[i];
+            Integer length = ArrayUtils.validDataLength(source);
+            if (length != 0) {
+                result = new Method[length];
+                for (int i = 0, j = 0; i < source.length; i++) {
+                    if (null != source[i]) {
+                        result[j++] = source[i];
+                    }
                 }
+                return result;
+            } else {
+                return new Method[0];
             }
-            return result;
         }
         return result;
     }
@@ -441,26 +491,4 @@ public final class ReflectionUtils {
     public static List<String> getInterfaceNames(Class<?> clazz) {
         return getInterfaces(clazz).stream().map(StringUtils::getClassName).collect(Collectors.toList());
     }
-
-    public static void main(String[] args) {
-        System.out.println(getInterfaceNames(C.class));
-    }
-}
-
-interface IA {
-}
-
-interface IB {
-}
-
-interface IC {
-}
-
-class A implements IA {
-}
-
-class B extends A implements IB, IC {
-}
-
-class C extends B {
 }

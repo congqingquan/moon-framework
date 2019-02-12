@@ -1,16 +1,23 @@
 package org.moon.framework.context.test;
 
 import org.moon.framework.beans.annotation.*;
+import org.moon.framework.beans.annotation.functional.*;
 import org.moon.framework.core.enums.ScopeSelector;
 
-@Scope(scope = ScopeSelector.SINGLETON)
+@Scope(scope = ScopeSelector.PROTOTYPE)
 @Alias(aliases = {"beanAliases1", "beanAliases2", "beanAliases3"})
 @LazyLoad
 @Component
 public class Person {
 
+	@Inject("foot")
+	private Foot foot;
+
+	@Inject
+	private Hand hand;
+
 	public Person() {
-		System.out.println("person init");
+		System.out.println("Person constructor method");
 	}
 
 	private String name;
@@ -19,11 +26,11 @@ public class Person {
 	
 	private char sex;
 	
-	@InitMethod
+//	@InitMethod
 	public void m1() {
 		System.out.println("init method: m1");
 	}
-	@InitMethod
+//	@InitMethod
 	public void m2() {
 		System.out.println("init method: m2");
 	}
@@ -35,6 +42,14 @@ public class Person {
 	
 	public void study() {}
 	public void sleep() {}
+
+	public Foot getFoot() {
+		return foot;
+	}
+
+	public Hand getHand() {
+		return hand;
+	}
 
 	@Override
 	public String toString() {
