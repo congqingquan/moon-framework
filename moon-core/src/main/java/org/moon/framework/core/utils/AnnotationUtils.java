@@ -52,6 +52,20 @@ public class AnnotationUtils {
 
     /**
      * 获取注解代理实例的ValueMap
+     *
+     * @param annotation 注解实例
+     * @return ValueMap
+     */
+    public static Map<Object, Object> getValueMap(Class<?> clazz, Class<? extends Annotation> annotation) {
+        if (null == clazz || null == annotation) {
+            return null;
+        }
+        return getValueMap(clazz.getAnnotation(annotation));
+    }
+
+    /**
+     * 获取注解代理实例的ValueMap
+     *
      * @param annotation 注解实例
      * @return ValueMap
      */
@@ -69,7 +83,4 @@ public class AnnotationUtils {
             return null;
         }
     }
-
-
-
 }

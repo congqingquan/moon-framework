@@ -102,7 +102,7 @@ public class ArrayUtils {
 		StringBuilder buffer = new StringBuilder(START_FLAG);
 		for (int i = 0; i < source.length; i++) {
 			if (i == source.length - 1) {
-				buffer.append(i);
+				buffer.append(source[i]);
 				buffer.append(END_FLAG);
 				break;
 			}
