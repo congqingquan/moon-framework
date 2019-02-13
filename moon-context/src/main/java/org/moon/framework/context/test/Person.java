@@ -4,7 +4,7 @@ import org.moon.framework.beans.annotation.*;
 import org.moon.framework.beans.annotation.functional.*;
 import org.moon.framework.core.enums.ScopeSelector;
 
-@Scope(scope = ScopeSelector.PROTOTYPE)
+@Scope(scope = ScopeSelector.SINGLETON)
 @Alias(aliases = {"beanAliases1", "beanAliases2", "beanAliases3"})
 @LazyLoad
 @Component
@@ -36,9 +36,13 @@ public class Person {
 	}
 
 	@DestroyMethod
-	public void m3() {}
+	public void m3() {
+		System.out.println("person destroy method m3 exec");
+	}
 	@DestroyMethod
-	public void m4() {}
+	public void m4() {
+		System.out.println("person destroy method m4 exec");
+	}
 	
 	public void study() {}
 	public void sleep() {}

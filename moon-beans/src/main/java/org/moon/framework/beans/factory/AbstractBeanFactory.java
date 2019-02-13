@@ -1,6 +1,8 @@
-package org.moon.framework.context.factory;
+package org.moon.framework.beans.factory;
 
+import org.moon.framework.beans.annotation.functional.DestroyMethod;
 import org.moon.framework.beans.annotation.functional.Inject;
+import org.moon.framework.beans.cache.SingletonBeanCacheContainer;
 import org.moon.framework.beans.container.AliasesContainer;
 import org.moon.framework.beans.container.AliasesMapping;
 import org.moon.framework.beans.container.TypeContainer;
@@ -12,7 +14,6 @@ import org.moon.framework.beans.exception.NoUniqueBeanException;
 import org.moon.framework.beans.register.BeanDescriptionRegisterCenter;
 import org.moon.framework.beans.register.GenericBeanDescriptionRegistrationCenter;
 import org.moon.framework.beans.scanner.BeansDescriptionScanner;
-import org.moon.framework.context.cache.SingletonBeanCacheContainer;
 import org.moon.framework.core.utils.ArrayUtils;
 import org.moon.framework.core.utils.ReflectionUtils;
 import org.moon.framework.core.utils.StringUtils;
@@ -20,6 +21,7 @@ import org.moon.framework.core.utils.StringUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +33,7 @@ import java.util.Set;
  * @email: 1814031271@qq.com
  * @Description: 通用Bean工厂的抽象层
  */
-public abstract class AbstractGenericBeanFactory implements BeanFactory {
+public abstract class AbstractBeanFactory implements BeanFactory {
 
     /**
      * 单例Bean的缓存容器
@@ -74,7 +76,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
             beanDescriptionRegistrationCenter.register(beanDescription.getBeanName(), beanDescription);
             // 2.2 校验是否含有重复别名且对别名进行维护(aliases: beanName)
             String[] beanDescriptionAliases = beanDescription.getAliases();
-            if(null != beanDescriptionAliases) {
+            if (null != beanDescriptionAliases) {
                 String beanName = beanDescription.getBeanName();
                 for (int i = 0; i < beanDescriptionAliases.length; i++) {
                     if (!checkAliases.add(beanDescriptionAliases[i])) {
@@ -110,7 +112,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
     protected Object instantiateBean(BeanDescription beanDescription) {
         // 1. 实例化Bean
         Object newInstance = singletonBeanCacheContainer.get(beanDescription.getBeanName());
-        if(null == newInstance) {
+        if (null == newInstance) {
             newInstance = ReflectionUtils.newInstance(beanDescription.getBeanClass().getName());
         }
 
@@ -160,7 +162,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
 
         // 3. 执行初始化函数
         Method[] initMethods = beanDescription.getInitMethods();
-        if(null != initMethods) {
+        if (null != initMethods) {
             for (int i = 0; i < initMethods.length; i++) {
                 try {
                     initMethods[i].setAccessible(true);
@@ -184,7 +186,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
     private Object getSingletonBean(String beanName) {
         // 1. 单例Bean缓存容器获取
         Object obj = singletonBeanCacheContainer.get(beanName);
-        // 2. 没有获取到则说明不是单例Bean，则去获取BeanDescription
+        // 2. 没有获取到则说明不是单例Bean或者为懒加载的单例Bean，则去BeanDescription注册中心获取BeanDescription
         if (null == obj) {
             // 3. 获取BeanDescription
             BeanDescription beanDescription = beanDescriptionRegistrationCenter.get(beanName);
@@ -197,7 +199,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
                 String[] aliases = beanDescription.getAliases();
                 if (ArrayUtils.isNotEmpty(aliases)) {
                     for (int i = 0; i < aliases.length; i++) {
-                        singletonBeanCacheContainer.put(aliases[i], singletonBean);
+                        aliasesMapping.bind(aliases[i], beanDescription.getBeanName());
                     }
                 }
                 return singletonBean;
@@ -230,7 +232,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
             }
         }
 
-        // 2. 如果已注册则去尝试以其为单例Bean进行获取
+        // 2. 如果已注册或BeanName参数值为别名则去尝试以其为单例Bean进行获取
         Object singletonBean = getSingletonBean(beanName);
         if (null != singletonBean) {
             return singletonBean;
@@ -266,5 +268,34 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
 
         // 4. 提取出beanName并根据其进行获取后返回
         return (T) getBean(beanNameByType);
+    }
+
+    /**
+     * 释放单例Bean，并执行Bean的标记了Destroy注解的函数
+     */
+    public void destroy() {
+        // 执行销毁函数
+        executeDestroyMethod(singletonBeanCacheContainer.getCacheContainer().values());
+        // 清除数据
+        singletonBeanCacheContainer.clear();
+    }
+
+    /**
+     * 执行销毁函数
+     */
+    private void executeDestroyMethod(Collection<Object> singletonBeans) {
+        for (Iterator<Object> iterator = singletonBeans.iterator(); iterator.hasNext(); ) {
+            Object singletonBean = iterator.next();
+            Method[] methodByAnnotation = ReflectionUtils.getMethodByAnnotation(singletonBean.getClass(), DestroyMethod.class);
+            for (int i = 0; i < methodByAnnotation.length; i++) {
+                try {
+                    methodByAnnotation[i].invoke(singletonBean);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

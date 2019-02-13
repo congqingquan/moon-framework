@@ -1,4 +1,4 @@
-package org.moon.framework.context.factory;
+package org.moon.framework.beans.factory;
 
 /**
  * Created by 明月 on 2019-01-13 / 16:45

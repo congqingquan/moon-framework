@@ -326,18 +326,17 @@ public final class ReflectionUtils {
      */
     public static Method[] removeMethodArrayEmptyElement(Method[] source) {
         Method[] result = null;
-        if (ArrayUtils.isNotEmpty(source)) {
-            Integer length = ArrayUtils.validDataLength(source);
-            if (length != 0) {
-                result = new Method[length];
-                for (int i = 0, j = 0; i < source.length; i++) {
-                    if (null != source[i]) {
-                        result[j++] = source[i];
-                    }
-                }
-                return result;
-            } else {
-                return new Method[0];
+        if(null == source) {
+            return result;
+        }
+        if(source.length == 0) {
+            return new Method[0];
+        }
+        Integer length = ArrayUtils.validDataLength(source);
+        result = new Method[length];
+        for (int i = 0, j = 0; i < source.length; i++) {
+            if (null != source[i]) {
+                result[j++] = source[i];
             }
         }
         return result;
