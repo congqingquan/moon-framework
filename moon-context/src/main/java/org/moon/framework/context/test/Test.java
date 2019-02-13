@@ -1,7 +1,6 @@
 package org.moon.framework.context.test;
 
 import org.moon.framework.context.MoonApplicationContext;
-import org.moon.framework.context.cache.SingletonBeanCacheContainer;
 
 /**
  * Created by 明月 on 2019-02-01 / 17:24
@@ -11,10 +10,15 @@ import org.moon.framework.context.cache.SingletonBeanCacheContainer;
  */
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         // 预记载模式
         MoonApplicationContext context = new MoonApplicationContext(Run.class);
+        Object sf = context.getBean("sf");
+        System.out.println(sf);
+
+        Object foot = context.getBean("foot");
+        System.out.println(foot);
 
         // 默认为单例Bean
         Object person = context.getBean("person");
@@ -46,9 +50,5 @@ public class Test {
 
         Object temp = context.getBean(Object.class);
         System.out.println(temp);
-
-
-        SingletonBeanCacheContainer singletonBeanCacheContainer = context.singletonBeanCacheContainer;
-        System.out.println();
     }
 }

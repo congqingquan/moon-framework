@@ -36,7 +36,7 @@ public abstract class AbstractGenericBeanFactory implements BeanFactory {
     /**
      * 单例Bean的缓存容器
      */
-    public final SingletonBeanCacheContainer singletonBeanCacheContainer = new SingletonBeanCacheContainer();
+    protected final SingletonBeanCacheContainer singletonBeanCacheContainer = new SingletonBeanCacheContainer();
 
     /**
      * Bean描述注册中心

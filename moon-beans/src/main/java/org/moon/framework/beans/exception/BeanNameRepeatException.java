@@ -7,14 +7,14 @@ package org.moon.framework.beans.exception;
  *
  * @Description: Bean名称重复异常
  */
-public class BeanNameRepetitionException extends RuntimeException {
+public class BeanNameRepeatException extends RuntimeException {
 
 	/**
 	 * 随机序列化ID
 	 */
 	private static final long serialVersionUID = 3963279758173621652L;
 
-	public BeanNameRepetitionException(String message) {
+	public BeanNameRepeatException(String message) {
 		super(message);
 	}
 }

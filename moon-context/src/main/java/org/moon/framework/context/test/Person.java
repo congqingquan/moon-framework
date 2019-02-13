@@ -10,7 +10,7 @@ import org.moon.framework.core.enums.ScopeSelector;
 @Component
 public class Person {
 
-	@Inject("foot")
+	@Inject("sf")
 	private Foot foot;
 
 	@Inject

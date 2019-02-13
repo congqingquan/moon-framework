@@ -1,6 +1,7 @@
 package org.moon.framework.context.test;
 
-import org.moon.framework.beans.annotation.Component;
+import org.moon.framework.beans.annotation.Service;
+import org.moon.framework.beans.annotation.functional.Alias;
 import org.moon.framework.beans.annotation.functional.Inject;
 import org.moon.framework.beans.annotation.functional.LazyLoad;
 
@@ -12,7 +13,8 @@ import org.moon.framework.beans.annotation.functional.LazyLoad;
  */
 //@Scope(scope = ScopeSelector.PROTOTYPE)
 @LazyLoad
-@Component
+@Alias(aliases = {"f11"})
+@Service("sf")
 public class Foot {
 
     public Foot() {

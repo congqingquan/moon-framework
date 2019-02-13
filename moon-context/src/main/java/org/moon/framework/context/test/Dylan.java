@@ -18,7 +18,7 @@ public class Dylan {
         System.out.println("Dylan constructor method");
     }
 
-    @Inject("foot")
+    @Inject("sf")
     private Foot foot;
 
     @Inject

@@ -1,8 +1,6 @@
 package org.moon.framework.beans.parser;
 
-import org.moon.framework.beans.annotation.Component;
-import org.moon.framework.beans.annotation.Repository;
-import org.moon.framework.beans.annotation.Service;
+import org.moon.framework.beans.configuration.MoonAnnotations;
 import org.moon.framework.beans.description.basic.BeanDescription;
 import org.moon.framework.beans.description.helper.BeanDescriptionGenerateHelper;
 import org.moon.framework.beans.exception.BeanParseException;
@@ -19,16 +17,6 @@ import java.lang.reflect.Modifier;
  * @Description: Beans解析器的抽象层
  */
 public abstract class AbstractBeansParser implements Parser<BeanDescription>{
-
-	/**
-	 * 组件注解集合
-	 */
-	@SuppressWarnings("unchecked")
-	private Class<? extends Annotation>[] annotationClasses = (Class<? extends Annotation>[]) new Class[] {
-			Component.class,
-			Service.class,
-			Repository.class
-	};
 
 	/**
 	 * Bean描述信息生成组件
@@ -64,7 +52,7 @@ public abstract class AbstractBeansParser implements Parser<BeanDescription>{
 	 */
 	@Override
 	public BeanDescription parse(Class<?> loadClass) {
-		return loadBeanDescription(loadClass, annotationClasses);
+		return loadBeanDescription(loadClass, MoonAnnotations.COMPONENT_ANNOTATION_CLASSES);
 	}
 
 	/**
