@@ -1,4 +1,4 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.basic;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -2,7 +2,7 @@ package org.moon.framework.beans.factory;
 
 import org.moon.framework.beans.container.BeansDescriptionContainer;
 import org.moon.framework.beans.description.basic.BeanDescription;
-import org.moon.framework.core.utils.ArrayUtils;
+import org.moon.framework.core.utils.collection.ArrayUtils;
 
 import java.util.Iterator;
 import java.util.Map;

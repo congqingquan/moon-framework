@@ -1,4 +1,6 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.basic;
+
+import org.moon.framework.core.utils.basic.StringUtils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

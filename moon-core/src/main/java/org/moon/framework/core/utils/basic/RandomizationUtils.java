@@ -1,7 +1,8 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.basic;
 
 import java.util.Collection;
 import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * Created by 明月   on 2019-01-13 / 23:21
@@ -53,5 +54,24 @@ public class RandomizationUtils {
 		T temp = array[i];
 		array[i] = array[j];
 		array[j] = temp;
+	}
+
+	/**
+	 * 根据生成策略生成Code码
+	 * @param generatePolicy 生成策略
+	 */
+	public static <T> T generate(Supplier<T> generatePolicy) {
+		return generatePolicy.get();
+	}
+
+	/**
+	 * 生成六位纯数值随机数
+	 */
+	public static Integer generateSixRandomNumber() {
+		int temp = (int) ((Math.random() * 1000000) + 1);
+		if (String.valueOf(temp).length() != 6) {
+			return temp + 100000;
+		}
+		return temp;
 	}
 }

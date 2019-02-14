@@ -14,9 +14,9 @@ import org.moon.framework.beans.exception.NoUniqueBeanException;
 import org.moon.framework.beans.register.BeanDescriptionRegisterCenter;
 import org.moon.framework.beans.register.GenericBeanDescriptionRegistrationCenter;
 import org.moon.framework.beans.scanner.BeansDescriptionScanner;
-import org.moon.framework.core.utils.ArrayUtils;
-import org.moon.framework.core.utils.ReflectionUtils;
-import org.moon.framework.core.utils.StringUtils;
+import org.moon.framework.core.utils.collection.ArrayUtils;
+import org.moon.framework.core.utils.reflection.ReflectionUtils;
+import org.moon.framework.core.utils.basic.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,6 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.basic;
+
+import org.moon.framework.core.utils.basic.Assert;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;

@@ -1,4 +1,6 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.basic;
+
+import org.moon.framework.core.utils.collection.ArrayUtils;
 
 /**
  * Created by 明月   on 2019-01-13 / 23:19

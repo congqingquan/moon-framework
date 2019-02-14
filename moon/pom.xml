@@ -13,7 +13,15 @@
 
 	<properties>
 		<moonframework.version>0.0.1-SNAPSHOT</moonframework.version>
-		<logback.version>1.2.3</logback.version>
+		<slf4j.version>1.7.25</slf4j.version>
+		<fastjson.version>1.2.47</fastjson.version>
+		<zxing.core.version>3.2.0</zxing.core.version>
+		<zxing.javase.version>3.2.0</zxing.javase.version>
+		<jcommander.version>1.48</jcommander.version>
+		<hibernate.validation.version>5.2.4.Final</hibernate.validation.version>
+		<httpclient.version>4.5.5</httpclient.version>
+		<httpcore.version>4.4.9</httpcore.version>
+		<servlet.api>3.1.0</servlet.api>
 	</properties>
 
 	<dependencyManagement>
@@ -35,7 +43,7 @@
 				<version>${moonframework.version}</version>
 			</dependency>
 
-			<!-- 日志组件 -->
+			<!-- log -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
@@ -47,6 +55,56 @@
 				<version>${logback.version}</version>
 			</dependency>
 
+			<!-- Json -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<!-- QRCode -->
+			<dependency>
+				<groupId>com.beust</groupId>
+				<artifactId>jcommander</artifactId>
+				<version>${jcommander.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${zxing.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>${zxing.javase.version}</version>
+			</dependency>
+
+			<!-- validation -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate.validation.version}</version>
+			</dependency>
+
+			<!-- servlet api -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.api}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- httpclient -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>${httpcore.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

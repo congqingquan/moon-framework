@@ -1,4 +1,6 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.file;
+
+import org.moon.framework.core.utils.basic.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

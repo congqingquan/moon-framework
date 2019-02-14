@@ -1,4 +1,4 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.collection;
 
 import java.util.Collection;
 import java.util.Map;

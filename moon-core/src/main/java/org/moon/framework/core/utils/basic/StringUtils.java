@@ -1,4 +1,4 @@
-package org.moon.framework.core.utils;
+package org.moon.framework.core.utils.basic;
 
 /**
  * Created by 明月   on 2019-01-13 / 23:21
