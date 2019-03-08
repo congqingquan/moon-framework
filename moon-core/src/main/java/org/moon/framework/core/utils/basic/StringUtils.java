@@ -9,6 +9,20 @@ package org.moon.framework.core.utils.basic;
  */
 public final class StringUtils {
 
+	/**
+	 * 编码格式
+	 */
+	private static final String ENCODE[] = new String[]{
+			"UTF-8",
+			"ISO-8859-1",
+			"GB2312",
+			"GBK",
+			"GB18030",
+			"Big5",
+			"Unicode",
+			"ASCII"
+	};
+
 	private StringUtils() {
 	}
 
@@ -93,5 +107,20 @@ public final class StringUtils {
 		String className = clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
 		char firstWord = Character.toLowerCase(className.charAt(0));
 		return firstWord + className.substring(1);
+	}
+
+	/**
+	 * 获取字符串的编码格式
+	 */
+	public static String getEncoding(String str) {
+		for (int i = 0; i < ENCODE.length; i++){
+			try {
+				if (str.equals(new String(str.getBytes(ENCODE[i]), ENCODE[i]))) {
+					return ENCODE[i];
+				}
+			} catch (Exception ex) {
+			}
+		}
+		return "";
 	}
 }
